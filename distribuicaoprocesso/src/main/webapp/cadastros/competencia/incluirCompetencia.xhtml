@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/layout/template.xhtml">
+	<ui:define name="content">
+		<h:form id="form">
+			<p:panel id="panelForm" header="Nova Competência">
+				<h:panelGrid columns="4" cellpadding="5" id="pnlCompetencia">
+					<p:outputLabel value="Código:" />
+					<p:inputText id="cd_competencia" value="#{competenciaMB.competencia.codigo}" />
+					<p:outputLabel value="Descrição" />
+					<p:inputText id="ds_competencia" value="#{competenciaMB.competencia.descricao}" />
+					<p:commandButton id="btnSalvar" value="Salvar" update="form,formListar" actionListener="#{competenciaMB.salvar()}" 
+									icon="ui-icon-check" rendered="#{competenciaMB.competencia.idCompetencia eq null}" />
+					<p:commandButton id="btnAlterar" value="Alterar" process="form" update="form,formListar" action="#{competenciaMB.alterar()}" 
+									icon="ui-icon-check" rendered="#{competenciaMB.competencia.idCompetencia ne null}" immediate="true" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+		<h:form id="formListar" >
+			<p:panel>
+				<p:dataTable id="checkboxDT" var="competencia" value="#{competenciaMB.competenciaList}" >
+			        <f:facet name="header">
+			            Competências
+			        </f:facet>
+			        <p:column headerText="Código">
+			            <h:outputText value="#{competencia.codigo}" />
+			        </p:column>
+			        <p:column headerText="Descrição">
+			            <h:outputText value="#{competencia.descricao}" />
+			        </p:column>
+			        <p:column style="width:32px;text-align: center">
+			             <p:commandButton update=":form:panelForm"  icon="ui-icon-search" title="Selecionar" immediate="true" onclick="PF('dlg1').show();">
+			                <f:setPropertyActionListener value="#{competencia}" target="#{competenciaMB.competenciaSelecionada}" />
+			            </p:commandButton>
+			        </p:column>
+			  </p:dataTable>
+			  <h:panelGrid columns="1" cellpadding="5">
+				   <p:dialog header="Alterar Competência" widgetVar="dlg1" modal="true" height="300">
+					  <p:panel id="dlPanelForm" header="Alterar Competência">
+							<h:panelGrid columns="4" cellpadding="5" id="pnlCompetencia">
+								<p:outputLabel value="Código:" />
+								<p:inputText id="cd_competencia" value="#{competenciaMB.competenciaSelecionada.codigo}" />
+								<p:outputLabel value="Descrição" />
+								<p:inputText id="ds_competencia" value="#{competenciaMB.competenciaSelecionada.descricao}" />
+								<p:commandButton id="btnAlterar" value="Alterar" process="dlPanelForm"  update="form,formListar" action="#{competenciaMB.alterar()}" 
+																 icon="ui-icon-check"  immediate="true" oncomplete="PF('dlg1').close();" />
+							</h:panelGrid>
+						</p:panel>
+					</p:dialog> 
+			 </h:panelGrid>
+			  
+			  
+			  </p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+
+</html>

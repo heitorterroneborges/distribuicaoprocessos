@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/layout/template.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<p:panel id="panel" header="Nova Comarca">
+				<p:messages id="msgs" />
+
+				<h:panelGrid columns="3" cellpadding="5">
+					<p:outputLabel value="Código:" />
+					<p:inputText id="cd_comarca" value="#{comarcaMB.comarca.codigo}" required="true" >
+						<f:validateLength minimum="2" />
+					</p:inputText>
+					<p:message for="cd_comarca" display="icon" />
+
+					<p:outputLabel value="Descrição" />
+					<p:inputText id="ds_comarca" value="#{comarcaMB.comarca.descricao}" required="true">
+						<f:validateLength minimum="2" />
+						<p:ajax update="ds_comarca" event="keyup" />
+					</p:inputText>
+					<p:message for="ds_comarca" id="msgDescricao" display="icon" />
+				</h:panelGrid>
+
+				<p:commandButton value="Save" update="panel" actionListener="#{comarcaMB.salvar()}" icon="ui-icon-check" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+
+</html>
